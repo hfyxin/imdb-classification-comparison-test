@@ -1,3 +1,4 @@
+# Working on it...
 # IMDB Sentiment Classification Comparison Test
 
 IMDB movie review dataset is a popular dataset used for text classification. Several methods will be implemented to tackle the problem and their results will be compared:
@@ -6,4 +7,5 @@ IMDB movie review dataset is a popular dataset used for text classification. Sev
 - Word-Embedding and LSTM
 - Word-Embedding and CNN
 - Word-Embedding and CNN + RNN
+
 (TBD)
