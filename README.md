@@ -8,9 +8,10 @@ IMDB movie review dataset is a popular dataset used for text classification. Sev
 - Word-Embedding and CNN
 - Word-Embedding and CNN + RNN
 
-With vocabulary size of 4000, sequence length trimmed to 400, some initial results (accuracy on test data) are:
-- LSTM 1 layer: 83% ~ 86%
-- CNN + FC: ~ 88%
+With vocabulary size of 4000, sequence length trimmed to 200, some initial results (accuracy on test data) are:
+- LSTM 1 layer: 83% ~ 86%, very slow.
+- CNN + FC: ~88%
+- TF-IDF + FC: ~89%, but tend to overfit.
 
 (TBD)
 
