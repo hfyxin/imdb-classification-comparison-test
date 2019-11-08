@@ -1,17 +1,19 @@
 from tensorflow.keras.datasets import imdb
 from tensorflow.keras.preprocessing.sequence import pad_sequences
-from model import cnn_1d, lstm_1layer, cnn_lstm
+from model import cnn_1d, lstm_1layer, cnn_lstm, nn_1hid, pipeline_tfidf
 
 # Parameters
-n_vocab = 20000     # vocabulary size
-maxlen = 100        # length of each example (paragraph)
+n_vocab = 4000     # vocabulary size
+maxlen = 200        # length of each example, only for word-embedding
 models = {          # model selection
     1:cnn_1d,
     2:lstm_1layer,
     3:cnn_lstm,
+    4:nn_1hid,
 }
 n = 3              # number of model
-batch_size = 30    # some models are batch-size sensitive
+preproc = 'word-embedding'  # word-embedding / tf-idf
+batch_size = 32    # some models are batch-size sensitive
 epochs = 3
 
 # Load imdb dataset
@@ -25,15 +27,25 @@ epochs = 3
     # index_from=3,
 )
 
-x_train = pad_sequences(x_train, maxlen=maxlen)
-x_test = pad_sequences(x_test, maxlen=maxlen)
-
+# preprocessing for word embedding
+if preproc == 'word-embedding':
+    x_train = pad_sequences(x_train, maxlen=maxlen)
+    x_test = pad_sequences(x_test, maxlen=maxlen)
+# preprocessing for tf-idf
+elif preproc == 'tf-idf':
+    vectorizer = pipeline_tfidf()
+    x_train = vectorizer.fit_transform(x_train)
+    x_test = vectorizer.transform(x_test)
+else:
+    print('Error', preproc)
+    
 print('x_train shape:', x_train.shape)
 print('x_test shape:', x_test.shape)
 
 
 # Model set-up
-model = models[n](n_vocab, maxlen)
+n_input = x_train.shape[1]
+model = models[n](n_input, n_vocab)
 model.summary()
 
 model.compile(loss='binary_crossentropy',
